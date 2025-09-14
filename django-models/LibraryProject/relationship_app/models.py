@@ -51,6 +51,7 @@ class UserProfile(models.Model):
         permissions = [
             ("can_borrow_book", "Can borrow book"),
             ("can_return_book", "Can return book"),
+            ("can_change_book", "can_delete_book"),
         ]
 
     def __str__(self):
