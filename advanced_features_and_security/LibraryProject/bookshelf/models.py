@@ -9,9 +9,10 @@ class Book(models.Model):
 
     def __str__(self):
         return f"{self.title} by {self.author}"
+    
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField(blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+    profile_picture = models.ImageField(upload_to='profile_photo/', blank=True, null=True)
     
 class CustomUserManager(BaseUserManager):
     
