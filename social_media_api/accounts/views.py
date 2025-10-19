@@ -3,13 +3,13 @@ from rest_framework import generics, permissions
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import CustomUser
-from .serializers import RegisterSerializer, LoginSerializer
+from .serializers import RegisterSerializer, LoginSerializer, FollowSerializer
 
 User = get_user_model()
 
 class AllUsersView(generics.ListAPIView):
-    queryset = CustomUser.objects.all()
-    serializer_class = FollowSerializer
+    queryset = User.objects.all()  
+    serializer_class = FollowSerializer   
     permission_classes = [permissions.IsAuthenticated]
 
 # ------------------------------
@@ -73,4 +73,4 @@ class UnfollowUserView(generics.GenericAPIView):
         user_to_unfollow = User.objects.get(id=user_id)
         request.user.following.remove(user_to_unfollow)
         return Response({"detail": f"You have unfollowed {user_to_unfollow.username}"}, status=status.HTTP_200_OK)
-    
+
