@@ -8,7 +8,7 @@ from .serializers import RegisterSerializer, LoginSerializer, FollowSerializer
 User = get_user_model()
 
 class AllUsersView(generics.ListAPIView):
-    queryset = User.objects.all()  
+    queryset = CustomUser.objects.all()  
     serializer_class = FollowSerializer   
     permission_classes = [permissions.IsAuthenticated]
 
