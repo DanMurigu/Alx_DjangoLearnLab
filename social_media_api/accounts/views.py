@@ -1,18 +1,11 @@
-from django.shortcuts import render
 from rest_framework import generics, permissions
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, LoginSerializer
-from rest_framework.views import APIView
 
-# Create your views here.
 User = get_user_model()
 
-
-# -------------------------------
-# Register New Users
-# -------------------------------
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
@@ -28,9 +21,6 @@ class RegisterView(generics.CreateAPIView):
         })
 
 
-# -------------------------------
-# Login Users
-# -------------------------------
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [permissions.AllowAny]
@@ -46,19 +36,9 @@ class LoginView(generics.GenericAPIView):
         })
 
 
-# -------------------------------
-# Get Authenticated User Profile
-# -------------------------------
-class ProfileView(APIView):
+class ProfileView(generics.RetrieveAPIView):
+    serializer_class = RegisterSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-    def get(self, request):
-        user = request.user
-        return Response({
-            "username": user.username,
-            "email": user.email,
-            "bio": user.bio,
-            "profile_picture": request.build_absolute_uri(user.profile_picture.url) if user.profile_picture else None,
-            "followers_count": user.followers.count(),
-            "following_count": user.following.count(),
-        })
+    def get_object(self):
+        return self.request.user
