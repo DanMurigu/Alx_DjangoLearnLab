@@ -1,0 +1,29 @@
+# 🧠 Social Media API
+
+This project is a Django REST Framework-based API that powers a simple social media platform with user authentication, posts, comments, and notifications.
+
+## 🚀 Current Milestone
+**Task 0: Project Setup and User Authentication**
+
+We have successfully:
+- Set up a Django + DRF project
+- Implemented a custom user model
+- Configured Token Authentication
+- Created registration and login endpoints
+
+---
+
+## 🛠️ Tech Stack
+- **Backend:** Django, Django REST Framework
+- **Auth:** DRF Token Authentication
+- **Database:** SQLite (development)
+- **Deployment:** To be configured in later stages
+
+---
+
+## ⚙️ Setup Instructions
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/social_media_api.git
+   cd social_media_api
