@@ -6,6 +6,9 @@ from .serializers import RegisterSerializer, LoginSerializer
 
 User = get_user_model()
 
+# ------------------------------
+# Register
+# ------------------------------
 class RegisterView(generics.CreateAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
@@ -21,6 +24,9 @@ class RegisterView(generics.CreateAPIView):
         })
 
 
+# ------------------------------
+# Login
+# ------------------------------
 class LoginView(generics.GenericAPIView):
     serializer_class = LoginSerializer
     permission_classes = [permissions.AllowAny]
@@ -36,6 +42,9 @@ class LoginView(generics.GenericAPIView):
         })
 
 
+# ------------------------------
+# Profile
+# ------------------------------
 class ProfileView(generics.RetrieveAPIView):
     serializer_class = RegisterSerializer
     permission_classes = [permissions.IsAuthenticated]

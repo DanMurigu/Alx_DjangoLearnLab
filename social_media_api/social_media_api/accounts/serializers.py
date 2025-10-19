@@ -13,19 +13,21 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'password', 'bio', 'profile_picture']
 
     def create(self, validated_data):
-       
+        
         user = User.objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
             password=validated_data['password'],
             bio=validated_data.get('bio', '')
         )
-        Token.objects.create(user=user)  
+       
+        Token.objects.create(user=user)
         return user
 
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()  
     password = serializers.CharField(write_only=True)  
+
     def validate(self, data):
         user = authenticate(username=data['username'], password=data['password'])
         if user and user.is_active:
