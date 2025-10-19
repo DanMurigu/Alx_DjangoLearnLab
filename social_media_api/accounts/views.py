@@ -1,6 +1,6 @@
+from rest_framework.authtoken.models import Token
 from rest_framework import generics, permissions
 from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, LoginSerializer
 
