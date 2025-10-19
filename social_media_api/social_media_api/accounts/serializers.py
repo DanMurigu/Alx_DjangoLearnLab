@@ -11,7 +11,7 @@ User = get_user_model()
 # Serializer for User Registration
 # -------------------------------
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True, required=True)
+    password = serializers.CharField(write_only=True)
 
     class Meta:
         model = User
@@ -32,8 +32,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 # Serializer for Login
 # -------------------------------
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
-    password = serializers.CharField(required=True, write_only=True)
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
 
     def validate(self, data):
         user = authenticate(username=data['username'], password=data['password'])
