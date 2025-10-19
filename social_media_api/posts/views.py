@@ -62,11 +62,13 @@ class LikePostView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
-        post = get_object_or_404(Post, pk=pk)
-        like, created = Like.objects.get_or_create(user=request.user, post=post)
+
+        post = generics.get_object_or_404(Post, pk=pk)
+
+        Like, created = Like.objects.get_or_create(user=request.user, post=post)
         if created:
             # create notification
-            create_notification(actor=request.user, recipient=post.author, verb='liked your post', target=post)
+            Notification.objects_create(actor=request.user, recipient=post.author, verb='liked your post', target=post)
             return Response({"detail": "Post liked."}, status=status.HTTP_201_CREATED)
         return Response({"detail": "You already liked this post."}, status=status.HTTP_400_BAD_REQUEST)
 
