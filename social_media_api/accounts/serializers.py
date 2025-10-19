@@ -2,6 +2,7 @@
 
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -63,3 +64,4 @@ class ProfileSerializer(serializers.ModelSerializer):
         if obj.profile_picture and request:
             return request.build_absolute_uri(obj.profile_picture.url)
         return None
+
