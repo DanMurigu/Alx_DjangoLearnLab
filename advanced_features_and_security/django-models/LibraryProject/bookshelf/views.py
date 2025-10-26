@@ -2,6 +2,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from .models import Book
 required_keys = ["book_list", "books"]
+"""
+This file contains views: ["book_list", "books"]
+"""
+
 
 @permission_required("bookshelf.can_view", raise_exception=True)
 
