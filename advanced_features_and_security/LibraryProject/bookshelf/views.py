@@ -3,8 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import permission_required
 from .models import Article
 from .models import Book
-# Create your views here.
+from .forms import ExampleForm
 
+# Create your views here.
 
 
 @permission_required('your_app_name.can_view', raise_exception=True)
