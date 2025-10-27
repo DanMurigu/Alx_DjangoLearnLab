@@ -8,6 +8,7 @@ from .forms import PostForm, CommentForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import Q
 
 
 # Create your views here.
@@ -40,6 +41,8 @@ class PostListView(ListView):
     template_name = 'blog/post_list.html'  # your template
     context_object_name = 'posts'
     ordering = ['-id']  # latest first
+
+    
 
 # Show single post
 class PostDetailView(DetailView):
@@ -108,4 +111,15 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def get_success_url(self):
         return self.object.post.get_absolute_url() 
+# Search posts
+def search_posts(request):
+    query = request.GET.get('q')
+    posts = Post.objects.none()
+    if query:
+        posts = Post.objects.filter(
+            Q(title__icontains=query) |
+            Q(content__icontains=query) |
+            Q(tags__name__icontains=query)
+        ).distinct()
+    return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
 

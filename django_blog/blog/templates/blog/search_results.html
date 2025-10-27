@@ -1,15 +1,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>All Blog Posts</h1>
+<h1>Search results for "{{ query }}"</h1>
 
-<!-- Search bar -->
-<form method="get" action="{% url 'search-posts' %}">
-    <input type="text" name="q" placeholder="Search posts..." required>
-    <button type="submit">Search</button>
-</form>
-
-<!-- List posts -->
 {% for post in posts %}
     <div style="border: 1px solid #ccc; padding: 10px; margin-bottom: 15px;">
         <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
@@ -25,6 +18,6 @@
         </p>
     </div>
 {% empty %}
-    <p>No posts found.</p>
+    <p>No posts found matching your query.</p>
 {% endfor %}
 {% endblock %}
