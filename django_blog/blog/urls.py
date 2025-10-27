@@ -9,8 +9,9 @@ urlpatterns = [
     # Post CRUD URLs (singular)
     path('post/', PostListView.as_view(), name='post-list'),                  # List all posts
     path('post/new/', PostCreateView.as_view(), name='post-create'),          # Create
-    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),     # Read
-    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),# Update
+    path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),   # Read
+    path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),  # Update
+    path('post/<int:pk>/edit/', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),# Delete
 
     # Comment URLs
