@@ -1,6 +1,6 @@
 from rest_framework import serializers
+from rest_framework.authtoken.models import Token
 from django.contrib.auth import get_user_model, authenticate
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -9,6 +9,8 @@ User = get_user_model()
 # Serializer for User Registration
 # -------------------------------
 class RegisterSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(required=True)
+    email = serializers.CharField(required=False, allow_blank=True)
     password = serializers.CharField(write_only=True, required=True)
 
     class Meta:
@@ -16,12 +18,15 @@ class RegisterSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'email', 'password', 'bio', 'profile_picture']
 
     def create(self, validated_data):
-        user = User.objects.create_user(
+        # Use get_user_model().objects.create_user
+        user = get_user_model().objects.create_user(
             username=validated_data['username'],
             email=validated_data.get('email', ''),
             password=validated_data['password'],
             bio=validated_data.get('bio', '')
         )
+        # Create auth token
+        Token.objects.create(user=user)
         return user
 
 
@@ -29,8 +34,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 # Serializer for Login
 # -------------------------------
 class LoginSerializer(serializers.Serializer):
-    username = serializers.CharField(required=True)
-    password = serializers.CharField(required=True, write_only=True)
+    username = serializers.CharField()
+    password = serializers.CharField(write_only=True)
 
     def validate(self, data):
         user = authenticate(username=data['username'], password=data['password'])
@@ -62,7 +67,8 @@ class ProfileSerializer(serializers.ModelSerializer):
         if obj.profile_picture and request:
             return request.build_absolute_uri(obj.profile_picture.url)
         return None
-    
+
+
 class FollowSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
