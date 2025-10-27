@@ -9,6 +9,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.db.models import Q
+from taggit.models import Tag
 
 
 # Create your views here.
@@ -123,3 +124,20 @@ def search_posts(request):
         ).distinct()
     return render(request, 'blog/search_results.html', {'posts': posts, 'query': query})
 
+from django.views.generic import ListView
+from taggit.models import Tag
+from .models import Post
+
+class PostByTagListView(ListView):
+    model = Post
+    template_name = 'blog/posts_by_tag.html'  # your template
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        tag_slug = self.kwargs.get('tag_slug')
+        return Post.objects.filter(tags__slug=tag_slug).distinct()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tag'] = Tag.objects.get(slug=self.kwargs.get('tag_slug'))
+        return context
